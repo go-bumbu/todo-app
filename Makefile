@@ -7,9 +7,6 @@ default: help
 ##@ Testing
 #==========================================================================================
 test: ## run fast go tests
-	@go test ./... --short -cover
-
-test-full: ## run go full tests (uses test containers)
 	@go test ./... -cover
 
 lint: ## run go linter
@@ -19,13 +16,46 @@ lint: ## run go linter
 benchmark: ## run go benchmarks
 	@go test -run=^$$ -bench=. ./...
 
+license-check: ## check for invalid licenses
+	# depends on : https://github.com/elastic/go-licence-detector
+	@go list -m -mod=readonly  -json all  | go-licence-detector -includeIndirect -validate -rules allowedLicenses.json
+
 .PHONY: verify
-verify: test-full lint benchmark ## run all tests
+verify: test license-check lint benchmark ## run all tests
 
 cover-report: ## generate a coverage report
 	go test -covermode=count -coverpkg=./... -coverprofile cover.out  ./...
 	go tool cover -html cover.out -o cover.html
 	open cover.html
+
+#==========================================================================================
+##@ Running
+#==========================================================================================
+run: ## start the GO service
+	@APP_LOG_LEVEL="debug" go run main.go start -c zarf/appData/config.yaml
+
+run-ui: package-ui run## build the UI and start the GO service
+
+#==========================================================================================
+##@ Building
+#==========================================================================================
+package-ui: build-ui ## build the web and copy into Go pacakge
+	rm -rf ./app/spa/files/ui*
+	mkdir -p ./app/spa/files/ui
+	cp -r ./webui/dist/* ./app/spa/files/ui/
+	touch ./app/spa/files/ui/.gitkeep
+build-ui:
+	@cd webui && \
+	npm install && \
+	export VITE_BASE="/ui" && \
+	npm run build
+
+build: package-ui ## use goreleaser to build
+	@goreleaser build --auto-snapshot --clean
+
+build-linux: package-ui ## use goreleaser to build a single linux target
+	@goreleaser release --clean --auto-snapshot --skip publish
+
 
 #==========================================================================================
 ##@ Release

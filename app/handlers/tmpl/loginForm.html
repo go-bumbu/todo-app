@@ -1,0 +1,27 @@
+<html>
+<head>
+    <style>
+        input,button{
+            padding: 0.1rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+
+</head>
+<body>
+    <h2>
+        Login
+    </h2>
+    <form action="{{ $.Path }}"  method="POST">
+        <input type="text" name="name" placeholder="User" required/>
+        <br/>
+        <input type="password" name="pw" placeholder="Password" required/>
+        <br/>
+        <button type="submit" >Submit</button>
+        <input type="hidden" name="redirect" value="{{ $.Redirect }}">
+    </form>
+    <hr>
+    <h4>data:</h4>
+    request path: {{ $.Path }}
+</body>
+</html>
