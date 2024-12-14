@@ -6,13 +6,11 @@ toolchain go1.23.1
 
 replace github.com/go-bumbu/userauth => ../userauth
 
-replace github.com/go-bumbu/http => ../http
-
 require (
 	github.com/andresbott/go-carbon v0.1.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/go-bumbu/config v0.1.0
-	github.com/go-bumbu/http v0.2.0
+	github.com/go-bumbu/http v0.3.0
 	github.com/go-bumbu/userauth v0.0.0-00010101000000-000000000000
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0

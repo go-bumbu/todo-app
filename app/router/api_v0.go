@@ -9,10 +9,12 @@ import (
 
 func (h *MainAppHandler) attachApiV0(r *mux.Router) {
 	// this sub router does enforce authentication
-	r.Use(func(handler http.Handler) http.Handler {
-		return middleware.JsonErrMiddleware(handler, !h.productionMode)
-	}, h.SessionAuth.Middleware)
 
+	jonErrMid := middleware.New(middleware.Cfg{
+		JsonErrors:  true,
+		GenericErrs: h.productionMode,
+	})
+	r.Use(jonErrMid.Middleware)
 	h.attachApiTask(r)
 }
 

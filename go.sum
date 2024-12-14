@@ -9,6 +9,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-bumbu/config v0.1.0 h1:DdU86LxfAVgN54gszNn5BGOFRi0Kqbwx018SpIOseMg=
 github.com/go-bumbu/config v0.1.0/go.mod h1:+7x+YHBelQapKLZX5wTp23TSb8SRlk2KIXoQjCPXWjI=
+github.com/go-bumbu/http v0.3.0 h1:3iOf+B0UKdH1amgngs63gQq8IPgh7BXrlh37BKY8yLs=
+github.com/go-bumbu/http v0.3.0/go.mod h1:3ue1uGKBNe/dtX2YtBUViDRE4eztu/AI1oQu7SVsqF8=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
 github.com/google/gofuzz v1.2.0 h1:xRy4A+RhZaiKjJ1bPfwQ8sedCA+YS2YcCHW6ec7JMi0=

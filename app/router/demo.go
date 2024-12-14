@@ -4,6 +4,7 @@ import (
 	"github.com/andresbott/go-carbon/libs/auth"
 	"github.com/andresbott/go-carbon/libs/http/handlers"
 	"github.com/go-bumbu/userauth/handlers/basicauth"
+	"net/http"
 
 	"github.com/gorilla/mux"
 )
@@ -21,6 +22,7 @@ func (h *MainAppHandler) attachDemo(r *mux.Router) {
 			{Text: "Authenticaion", Child: []handlers.Link{
 				{Text: "Status (/auth/status)", Url: "/auth/status"},
 			}},
+			{Text: "get a 503 error", Url: "/demo/err"},
 			{Text: "Json API", Child: []handlers.Link{
 				{Text: "User options", Url: "/api/v0/user/options"},
 			}},
@@ -30,6 +32,11 @@ func (h *MainAppHandler) attachDemo(r *mux.Router) {
 		},
 	}
 	r.Path("").Handler(demoPage)
+
+	r.Path("/err").HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		http.Error(writer, "sample 500 error", http.StatusInternalServerError)
+	})
+
 }
 
 func (h *MainAppHandler) attachBasicAuthProtected(r *mux.Router) {

@@ -44,17 +44,25 @@ func (h *MainAppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func New(cfg Cfg) (*MainAppHandler, error) {
 	r := mux.NewRouter()
 	app := MainAppHandler{
-		router:       r,
-		db:           cfg.Db,
-		SessionAuth:  cfg.SessionAuth,
-		userMngr:     cfg.UserMngr,
-		logger:       cfg.Logger,
-		todoListMngr: cfg.TodoListMngr,
+		router:         r,
+		db:             cfg.Db,
+		SessionAuth:    cfg.SessionAuth,
+		userMngr:       cfg.UserMngr,
+		logger:         cfg.Logger,
+		todoListMngr:   cfg.TodoListMngr,
+		productionMode: cfg.ProductionMode,
 	}
 
 	// normally on real world project you would never add this middleware
 	app.addDelayMiddleware(app.router)
-	app.addPromMiddleware(app.router)
+
+	prodMid := middleware.New(middleware.Cfg{
+		JsonErrors:  false,
+		GenericErrs: cfg.ProductionMode,
+		Logger:      cfg.Logger,
+		Histogram:   middleware.NewPromHistogram("", nil, nil),
+	})
+	r.Use(prodMid.Middleware)
 
 	app.attachUserAuth(app.router.PathPrefix("/auth").Subrouter())
 
@@ -62,7 +70,7 @@ func New(cfg Cfg) (*MainAppHandler, error) {
 	app.attachApiV0(app.router.PathPrefix("/api/v0").Subrouter())
 
 	// attach another handler to /demo to showcase other use-cases
-	app.attachDemo(app.router.Path("/demo").Subrouter())
+	app.attachDemo(app.router.PathPrefix("/demo").Subrouter())
 
 	// protect /basic with basic auth
 	app.attachBasicAuthProtected(app.router.Path("/basic").Subrouter())
@@ -117,16 +125,6 @@ func (h *MainAppHandler) addDelayMiddleware(r *mux.Router) {
 		}
 		r.Use(throttle.Delay)
 	}
-
-}
-
-func (h *MainAppHandler) addPromMiddleware(r *mux.Router) {
-	//add observability
-
-	hist := middleware.NewHistogram("", nil, nil)
-	r.Use(func(handler http.Handler) http.Handler {
-		return middleware.PromLogMiddleware(handler, hist, h.logger)
-	})
 
 }
 
