@@ -73,10 +73,11 @@ func runServer(configFile string) error {
 	if err != nil {
 		return err
 	}
-	_ = db
 
 	userStore, err := getUserStore(cfg, l)
-	_ = userStore // needed in the login handler
+	if err != nil {
+		return err
+	}
 
 	store, _ := sessionauth.NewFsStore("", securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
 	// create an instance of session auth

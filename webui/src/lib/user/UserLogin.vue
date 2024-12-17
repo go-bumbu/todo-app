@@ -3,6 +3,7 @@ import Card from 'primevue/card'
 import Password from 'primevue/password'
 import InputGroup from 'primevue/inputgroup'
 import InputText from 'primevue/inputtext'
+import ToggleSwitch from 'primevue/toggleswitch'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
@@ -15,9 +16,14 @@ const user = useUserStore()
 
 const userRef = ref(null)
 const passRef = ref(null)
+const keepLoginRef = ref(false)
 
 const load = () => {
-    user.login(userRef.value, passRef.value, function (){
+    user.login(
+        userRef.value,
+        passRef.value,
+        keepLoginRef.value,
+  function (){
       router.push('/app')
     })
 }
@@ -50,8 +56,11 @@ const load = () => {
                         :inputProps="{ autocomplete: 'current-password', required: true, }"
                     />
                 </InputGroup>
-
-                <Message v-if="user.wrongPwErr" severity="error" closable
+              <InputGroup>
+                <ToggleSwitch  inputId="loggedin" v-model="keepLoginRef" />
+                <label  class="ml-4" for="loggedin">Keep me signed in</label>
+             </InputGroup>
+            <Message v-if="user.wrongPwErr" severity="error" closable
                     >Wrong username or password</Message
                 >
                 <Button label="Log in" class="w-full" @click="load" />

@@ -39,10 +39,14 @@ export const useUserStore = defineStore('user', () => {
             })
     }
 
-    const login = (user, pass, onSuccessNavigate) => {
+    const login = (user, pass,keepMeLoggedIn, onSuccessNavigate) => {
+        if (!keepMeLoggedIn){
+            keepMeLoggedIn = false
+        }
         const data = {
             username: user,
-            password: pass
+            password: pass,
+            sessionRenew:keepMeLoggedIn,
         }
 
         const authAxios = axios.create()
@@ -67,8 +71,8 @@ export const useUserStore = defineStore('user', () => {
                 console.log(res)
                 if (res.status === 200) {
                     console.debug(res.data)
-                    loggedInUser.value = res.data['username']
-                    isLoggedIn.value = res.data['logged-in']
+                    loggedInUser.value = user
+                    isLoggedIn.value = true
                     wrongPwErr.value = false
 
                     // Trigger the callback for navigation

@@ -4,14 +4,12 @@ go 1.23
 
 toolchain go1.23.1
 
-replace github.com/go-bumbu/userauth => ../userauth
-
 require (
 	github.com/andresbott/go-carbon v0.1.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/go-bumbu/config v0.1.0
 	github.com/go-bumbu/http v0.3.0
-	github.com/go-bumbu/userauth v0.0.0-00010101000000-000000000000
+	github.com/go-bumbu/userauth v0.2.1
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
@@ -46,6 +44,6 @@ require (
 	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
-	google.golang.org/protobuf v1.35.2 // indirect
+	google.golang.org/protobuf v1.36.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

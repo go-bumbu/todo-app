@@ -1,20 +1,18 @@
 package router
 
 import (
-	"github.com/go-bumbu/http/middleware"
 	"github.com/go-bumbu/todo-app/app/handlers"
+	"github.com/go-bumbu/userauth/authenticator"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func (h *MainAppHandler) attachApiV0(r *mux.Router) {
 	// this sub router does enforce authentication
+	authHandlers := []authenticator.AuthHandler{h.SessionAuth}
+	auth := authenticator.New(authHandlers, h.logger, nil, nil)
 
-	jonErrMid := middleware.New(middleware.Cfg{
-		JsonErrors:  true,
-		GenericErrs: h.productionMode,
-	})
-	r.Use(jonErrMid.Middleware)
+	r.Use(auth.Middleware)
 	h.attachApiTask(r)
 }
 

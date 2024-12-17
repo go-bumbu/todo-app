@@ -8,20 +8,22 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"testing"
 )
 
-const inMemorySqlite = "file::memory:?cache=shared"
-
 func TestListTasks(t *testing.T) {
-	db, err := gorm.Open(sqlite.Open(inMemorySqlite), &gorm.Config{
+
+	tmpDir := t.TempDir()
+	db, err := gorm.Open(sqlite.Open(filepath.Join(tmpDir, "test.db")), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	mngr, err := todolist.New(db)
 	if err != nil {
 		t.Fatal(err)
@@ -85,8 +87,10 @@ func TestListTasks(t *testing.T) {
 			t.Errorf("unexpected value (-got +want)\n%s", diff)
 		}
 	})
-
 }
+
+const inMemorySqlite = "file::memory:?cache=shared"
+
 func TestCrudTask(t *testing.T) {
 	// initialize DB
 	db, err := gorm.Open(sqlite.Open(inMemorySqlite), &gorm.Config{})
@@ -94,7 +98,7 @@ func TestCrudTask(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	mngr, err := todolist.New(db) // since in this test we run everything sequentially we explicitly don't set a mutex
+	mngr, err := todolist.New(db)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -98,14 +98,14 @@ func (h *MainAppHandler) attachTodolistSpa(r *mux.Router, path string) error {
 func (h *MainAppHandler) attachUserAuth(r *mux.Router) {
 
 	//  LOGIN
-	r.Path("/login").Methods(http.MethodPost).Handler(handlrs.UserLoginHandler(h.SessionAuth, h.userMngr))
+	r.Path("/login").Methods(http.MethodPost).Handler(h.SessionAuth.JsonAuthHandler(h.userMngr))
 	r.Path("/login").Methods(http.MethodOptions).Handler(
 		http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {}))
 	// TODO add a basic form login here to the GET method
 	r.Path("/login").HandlerFunc(StatusErr(http.StatusMethodNotAllowed))
 
 	// LOGOUT
-	r.Path("/logout").Handler(handlrs.UserLogoutHandler(h.SessionAuth))
+	r.Path("/logout").Handler(h.SessionAuth.LogoutHandler("/"))
 
 	// STATUS
 	r.Path("/status").Methods(http.MethodGet).Handler(handlrs.UserStatusHandler(h.SessionAuth))
@@ -125,7 +125,6 @@ func (h *MainAppHandler) addDelayMiddleware(r *mux.Router) {
 		}
 		r.Use(throttle.Delay)
 	}
-
 }
 
 func StatusErr(status int) func(w http.ResponseWriter, r *http.Request) {

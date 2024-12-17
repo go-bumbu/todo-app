@@ -32,7 +32,7 @@ func (h *TodoListHandler) List() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		uData, err := sessionauth.CtxGetUserData(r)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("unable to list task: %s", err.Error()), http.StatusInternalServerError)
 			return
 		}
 
@@ -41,7 +41,7 @@ func (h *TodoListHandler) List() http.Handler {
 		if limitStr != "" {
 			limit, err = strconv.Atoi(limitStr)
 			if err != nil {
-				http.Error(w, fmt.Sprintf("unable to convert limit value to number"), http.StatusBadRequest)
+				http.Error(w, "unable to convert limit value to number", http.StatusBadRequest)
 				return
 			}
 		}
@@ -51,7 +51,7 @@ func (h *TodoListHandler) List() http.Handler {
 		if pageStr != "" {
 			page, err = strconv.Atoi(pageStr)
 			if err != nil {
-				http.Error(w, fmt.Sprintf("unable to convert page value to number"), http.StatusBadRequest)
+				http.Error(w, "unable to convert page value to number", http.StatusBadRequest)
 				return
 			}
 		}
@@ -108,12 +108,12 @@ func (h *TodoListHandler) Create() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		uData, err := sessionauth.CtxGetUserData(r)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("unable to create task: %s", err.Error()), http.StatusInternalServerError)
 			return
 		}
 
 		if r.Body == nil {
-			http.Error(w, fmt.Sprintf("request had empty body"), http.StatusBadRequest)
+			http.Error(w, "request had empty body", http.StatusBadRequest)
 			return
 		}
 		payload := localTaskInput{}
@@ -170,7 +170,7 @@ func (h *TodoListHandler) Read() http.Handler {
 
 		uData, err := sessionauth.CtxGetUserData(r)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("unable to read task: %s", err.Error()), http.StatusInternalServerError)
 			return
 		}
 
@@ -210,12 +210,12 @@ func (h *TodoListHandler) Update() http.Handler {
 
 		uData, err := sessionauth.CtxGetUserData(r)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("unable to update task: %s", err.Error()), http.StatusInternalServerError)
 			return
 		}
 
 		if r.Body == nil {
-			http.Error(w, fmt.Sprintf("request had empty body"), http.StatusBadRequest)
+			http.Error(w, "request had empty body", http.StatusBadRequest)
 			return
 		}
 		payload := localTaskInput{}
@@ -254,7 +254,7 @@ func (h *TodoListHandler) Delete() http.Handler {
 
 		uData, err := sessionauth.CtxGetUserData(r)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, fmt.Sprintf("unable to delete task: %s", err.Error()), http.StatusInternalServerError)
 			return
 		}
 

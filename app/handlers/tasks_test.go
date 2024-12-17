@@ -113,7 +113,7 @@ func TestTaskHandler_List(t *testing.T) {
 
 				return req, nil
 			},
-			expecErr:   "unable to obtain user data from context",
+			expecErr:   "unable to list task: unable to obtain user data from context",
 			expectCode: http.StatusInternalServerError,
 		},
 	}
@@ -215,7 +215,7 @@ func TestTaskHandler_Create(t *testing.T) {
 
 				return req, nil
 			},
-			expecErr:   "unable to obtain user data from context",
+			expecErr:   "unable to create task: unable to obtain user data from context",
 			expectCode: http.StatusInternalServerError,
 		},
 		{
@@ -375,7 +375,7 @@ func TestTaskHandler_Read(t *testing.T) {
 				})
 				return req, nil
 			},
-			expecErr:   "unable to obtain user data from context",
+			expecErr:   "unable to read task: unable to obtain user data from context",
 			expectCode: http.StatusInternalServerError,
 		},
 		{
@@ -534,7 +534,7 @@ func TestTaskHandler_Update(t *testing.T) {
 				})
 				return req, nil
 			},
-			expecErr:   "unable to obtain user data from context",
+			expecErr:   "unable to update task: unable to obtain user data from context",
 			expectCode: http.StatusInternalServerError,
 		},
 		{
@@ -696,7 +696,7 @@ func TestTaskHandler_Delete(t *testing.T) {
 				})
 				return req, nil
 			},
-			expecErr:   "unable to obtain user data from context",
+			expecErr:   "unable to delete task: unable to obtain user data from context",
 			expectCode: http.StatusInternalServerError,
 		},
 		{
