@@ -1,8 +1,6 @@
 <script setup>
-
-import Vertical from "@/lib/layout/Vertical.vue";
+import Vertical from '@/lib/layout/Vertical.vue'
 </script>
-
 
 <template>
     <div class="about">

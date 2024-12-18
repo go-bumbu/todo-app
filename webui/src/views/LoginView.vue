@@ -1,6 +1,6 @@
 <script setup>
-import Vertical from "@/lib/layout/Vertical.vue";
-import Horizontal from "@/lib/layout/horizontal.vue";
+import Vertical from '@/lib/layout/Vertical.vue'
+import Horizontal from '@/lib/layout/horizontal.vue'
 import UserLogin from '@/lib/user/UserLogin.vue'
 </script>
 
@@ -17,5 +17,3 @@ import UserLogin from '@/lib/user/UserLogin.vue'
         <template v-slot:footer> </template>
     </vertical>
 </template>
-
-

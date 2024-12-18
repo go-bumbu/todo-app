@@ -2,27 +2,24 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import axios from 'axios'
 
-
 const statusPath = import.meta.env.VITE_AUTH_PATH + '/status'
 const loginPath = import.meta.env.VITE_AUTH_PATH + '/login'
 const logoutPath = import.meta.env.VITE_AUTH_PATH + '/logout'
 
 export const useUserStore = defineStore('user', () => {
-
     const isLoggedIn = ref(false)
-    const loggedInUser = ref("")
+    const loggedInUser = ref('')
     const isFirstLogin = ref(true)
     const isLoading = ref(false)
     const wrongPwErr = ref(false)
 
+    const user = ref('')
 
-    const user = ref("")
-
-    const setFirstLoginFalse = () =>{
+    const setFirstLoginFalse = () => {
         isFirstLogin.value = false
     }
 
-    const checkState = () =>{
+    const checkState = () => {
         return axios
             .get(statusPath)
             .then((res) => {
@@ -39,14 +36,14 @@ export const useUserStore = defineStore('user', () => {
             })
     }
 
-    const login = (user, pass,keepMeLoggedIn, onSuccessNavigate) => {
-        if (!keepMeLoggedIn){
+    const login = (user, pass, keepMeLoggedIn, onSuccessNavigate) => {
+        if (!keepMeLoggedIn) {
             keepMeLoggedIn = false
         }
         const data = {
             username: user,
             password: pass,
-            sessionRenew:keepMeLoggedIn,
+            sessionRenew: keepMeLoggedIn
         }
 
         const authAxios = axios.create()
@@ -77,9 +74,8 @@ export const useUserStore = defineStore('user', () => {
 
                     // Trigger the callback for navigation
                     if (onSuccessNavigate) {
-                        onSuccessNavigate();
+                        onSuccessNavigate()
                     }
-
                 } else {
                     console.log(res)
                 }
@@ -103,16 +99,16 @@ export const useUserStore = defineStore('user', () => {
             })
     }
 
-    const logout = (onLogout) =>{
+    const logout = (onLogout) => {
         isLoading.value = true
         axios
             .post(logoutPath, '')
             .then((res) => {
-                loggedInUser.value = ""
+                loggedInUser.value = ''
                 isLoggedIn.value = false
 
                 if (onLogout) {
-                    onLogout();
+                    onLogout()
                 }
 
                 // router.push('/login')
@@ -125,7 +121,6 @@ export const useUserStore = defineStore('user', () => {
                 isLoading.value = false
             })
     }
-
 
     return {
         isFirstLogin,
@@ -140,6 +135,5 @@ export const useUserStore = defineStore('user', () => {
         wrongPwErr,
 
         logout
-
     }
 })

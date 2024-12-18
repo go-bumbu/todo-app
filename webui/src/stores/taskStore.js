@@ -26,19 +26,18 @@ export const useTaskStore = defineStore('tasks', () => {
         totalTasks.value = tasks.value.length
     }
     const removeTask = (id) => {
-        const index = tasks.value.findIndex(item => item.id === id)
-        tasks.value.splice(index,1)
+        const index = tasks.value.findIndex((item) => item.id === id)
+        tasks.value.splice(index, 1)
     }
-    const updateTask = (id, text, done) =>{
-        const index = tasks.value.findIndex(item => item.id === id)
-        if (text !== ""){
+    const updateTask = (id, text, done) => {
+        const index = tasks.value.findIndex((item) => item.id === id)
+        if (text !== '') {
             tasks.value[index].text = text
         }
-        if (typeof done === "boolean"){
+        if (typeof done === 'boolean') {
             tasks.value[index].done = done
         }
     }
-
 
     // loadTasks loads tasks from the remote api endpoint
     const loadTasks = () => {
@@ -58,9 +57,10 @@ export const useTaskStore = defineStore('tasks', () => {
                 })
                 .catch((err) => {
                     console.log(err)
-                }).finally(()=>{
-                    isLoading.value =false
-            })
+                })
+                .finally(() => {
+                    isLoading.value = false
+                })
         }
     }
     // reset will wipe the store, this is used when a user logs out to prevent
@@ -99,11 +99,9 @@ export const useTaskStore = defineStore('tasks', () => {
             })
     }
 
-
-
-    const deleteTask = (id) =>{
+    const deleteTask = (id) => {
         return axios
-            .delete(taskEndpoint+ "/"+id,)
+            .delete(taskEndpoint + '/' + id)
             .then((res) => {
                 if (res.status === 202) {
                     removeTask(id)
@@ -118,20 +116,20 @@ export const useTaskStore = defineStore('tasks', () => {
             })
     }
 
-    const setDone = (id, status) =>{
+    const setDone = (id, status) => {
         const taskPayload = {
             id: id,
             done: status
         }
         return axios
-            .put(taskEndpoint+ "/"+id, taskPayload, {
+            .put(taskEndpoint + '/' + id, taskPayload, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
             .then((res) => {
                 if (res.status === 202) {
-                    updateTask(id,"",status)
+                    updateTask(id, '', status)
                 } else {
                     console.log('err')
                     console.log(res)

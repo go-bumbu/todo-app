@@ -4,7 +4,7 @@ import ProgressSpinner from 'primevue/progressspinner'
 <style>
 .c-loading {
     display: flex;
-  background-color: rgba(133, 133, 133, 0.5);
+    background-color: rgba(133, 133, 133, 0.5);
 
     position: fixed;
     height: 100%;

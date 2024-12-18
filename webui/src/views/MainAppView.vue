@@ -1,6 +1,6 @@
 <script setup>
-import Horizontal from "@/lib/layout/horizontal.vue";
-import Vertical from "@/lib/layout/Vertical.vue";
+import Horizontal from '@/lib/layout/horizontal.vue'
+import Vertical from '@/lib/layout/Vertical.vue'
 import TopBar from '@/views/parts/topbar.vue'
 import { useUserStore } from '@/lib/user/userstore.js'
 import TaskList from '@/views/parts/TaskList.vue'

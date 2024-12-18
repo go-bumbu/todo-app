@@ -1,6 +1,5 @@
-@use "variables" as vars;
-@use "mixins";
-
+@use 'variables' as vars;
+@use 'mixins';
 
 .layout-topbar {
     position: fixed;

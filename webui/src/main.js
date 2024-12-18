@@ -10,7 +10,6 @@ import '@/assets/style.scss'
 
 import PrimeVue from 'primevue/config'
 
-
 app.use(PrimeVue, {
     // Default theme configuration
     theme: {
@@ -30,7 +29,6 @@ app.use(createPinia())
 // // initialize toast service
 // import ToastService from 'primevue/toastservice';
 // app.use(ToastService);
-
 
 // add the app router
 import router from './router'
