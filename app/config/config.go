@@ -64,7 +64,16 @@ var defaultCfg = AppCfg{
 		BlockKey:    "", // cookie value encryption
 		UserStore: userStore{
 			StoreType: "static",
-			Users:     []User{},
+			Users: []User{
+				{
+					Name: "demo",
+					Pw:   "demo",
+				},
+				{
+					Name: "admin",
+					Pw:   "admin",
+				},
+			},
 		},
 	},
 	Env: Env{
@@ -84,7 +93,7 @@ func Get(file string) (AppCfg, error) {
 	var err error
 	_, err = config.Load(
 		config.Defaults{Item: defaultCfg},
-		config.CfgFile{Path: file},
+		config.CfgFile{Path: file, Mandatory: false},
 		config.EnvVar{Prefix: "BUMBU"},
 		config.Unmarshal{Item: &cfg},
 		config.Writer{Fn: func(level, msg string) {

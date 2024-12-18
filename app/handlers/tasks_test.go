@@ -7,11 +7,11 @@ import (
 	"github.com/go-bumbu/todo-app/internal/model/todolist"
 	"github.com/go-bumbu/userauth/handlers/sessionauth"
 
+	"github.com/glebarez/sqlite"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"io"

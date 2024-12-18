@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/andresbott/go-carbon/libs/auth"
-	"github.com/andresbott/go-carbon/libs/http/handlers"
+	handlers "github.com/go-bumbu/todo-app/app/handlers"
 	"github.com/go-bumbu/userauth/handlers/basicauth"
+	"github.com/go-bumbu/userauth/handlers/sessionauth"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -13,14 +13,10 @@ func (h *MainAppHandler) attachDemo(r *mux.Router) {
 	demoPage := handlers.SimpleText{
 		Text: "Demo root page",
 		Links: []handlers.Link{
-			{Text: "Basic auth protected (demo:demo)", Url: "/basic"},
-			{Text: "session Authentication protected page", Url: "/session"},
-			//{
-			//	Text: "session based login (demo:demo)",
-			//	Url:  handlers2.sessionLogin,
-			//},
-			{Text: "Authenticaion", Child: []handlers.Link{
+			{Text: "Basic auth protected", Url: "/basic"},
+			{Text: "Auth", Child: []handlers.Link{
 				{Text: "Status (/auth/status)", Url: "/auth/status"},
+				{Text: "Logout (/auth/logout)", Url: "/auth/logout"},
 			}},
 			{Text: "get a 503 error", Url: "/demo/err"},
 			{Text: "Json API", Child: []handlers.Link{
@@ -58,7 +54,7 @@ func (h *MainAppHandler) attachBasicAuthProtected(r *mux.Router) {
 
 // const SessionLogin = "/session-login"
 
-func SessionProtected(r *mux.Router, session *auth.SessionMgr) error {
+func SessionProtected(r *mux.Router, session *sessionauth.Manager) error {
 	pageHandler := handlers.SimpleText{
 		Text: "Page protected by session auth",
 		Links: []handlers.Link{

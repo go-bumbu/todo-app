@@ -5,13 +5,14 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/glebarez/sqlite"
 	"github.com/go-bumbu/http/server"
+	handlers "github.com/go-bumbu/todo-app/app/handlers"
 	"github.com/go-bumbu/userauth"
 	"github.com/go-bumbu/userauth/handlers/sessionauth"
 	"github.com/go-bumbu/userauth/userstore/staticusers"
 	"github.com/gorilla/securecookie"
 	"github.com/spf13/cobra"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
 	"github.com/go-bumbu/todo-app/app/config"
@@ -108,11 +109,11 @@ func runServer(configFile string) error {
 	}
 
 	s, err := server.New(server.Cfg{
-		Addr:    cfg.Server.Addr(),
-		Handler: mainAppHandler,
-		SkipObs: true,
-		ObsAddr: cfg.Obs.Addr(),
-		//ObsHandler: handlers.Observability(),
+		Addr:       cfg.Server.Addr(),
+		Handler:    mainAppHandler,
+		SkipObs:    false,
+		ObsAddr:    cfg.Obs.Addr(),
+		ObsHandler: handlers.Observability(),
 		Logger: func(msg string, isErr bool) {
 			// TODO use slogger ?
 			if isErr {
